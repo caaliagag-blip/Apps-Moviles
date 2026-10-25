@@ -1,40 +1,31 @@
 package com.example.alertatemprana
 
+import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import com.example.alertatemprana.util.NotificacionHelper
+import androidx.activity.result.contract.ActivityResultContracts
+import com.example.alertatemprana.navigation.AppNavigation
+import com.example.alertatemprana.ui.theme.AlertaTempranaTheme
 
 class MainActivity : ComponentActivity() {
+
+    private val requestNotificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { /* Se concedió o rechazó */ }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Inicializar canal de notificaciones nativas para Android 13+
-        NotificacionHelper.createNotificationChannel(this)
+        // Pedir permiso de notificaciones en Android 13 (API 33+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
 
         setContent {
-            MaterialTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Alerta Temprana")
-                }
+            AlertaTempranaTheme {
+                AppNavigation()
             }
         }
     }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Aplicación $name iniciada correctamente",
-        modifier = modifier
-    )
 }

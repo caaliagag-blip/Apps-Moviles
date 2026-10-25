@@ -7,6 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [MedicionEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
+
     abstract fun galponDao(): GalponDao
 
     companion object {

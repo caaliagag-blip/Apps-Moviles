@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
+@Suppress("SpellCheckingInspection")
 class GalponViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: GalponRepository
@@ -39,7 +40,7 @@ class GalponViewModel(application: Application) : AndroidViewModel(application) 
             initialValue = emptyList()
         )
 
-    val modoEmergencia: StateFlow<Boolean?> = estadoDataStore.modoEmergenciaFlow
+    val modoEmergencia: StateFlow<Boolean> = estadoDataStore.modoEmergenciaFlow
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
@@ -61,7 +62,7 @@ class GalponViewModel(application: Application) : AndroidViewModel(application) 
 
     fun alternarModoEmergencia() {
         viewModelScope.launch {
-            val actual = modoEmergencia.value ?: false
+            val actual = modoEmergencia.value
             estadoDataStore.guardarModoEmergencia(!actual)
         }
     }
@@ -99,7 +100,8 @@ class GalponViewModel(application: Application) : AndroidViewModel(application) 
                 temperatura = tempVal,
                 humedad = humVal,
                 estado = estadoCalc,
-                fechaHora = java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault()).format(java.util.Date())
+                fechaHora = java.text.SimpleDateFormat("dd/MM/yyyy HH:mm", java.util.Locale.getDefault()).format(java.util.Date()),
+                imagenUri = _evidenciaUri.value?.toString()
             )
 
             if (tempVal >= 32.0) {
@@ -113,6 +115,7 @@ class GalponViewModel(application: Application) : AndroidViewModel(application) 
             viewModelScope.launch {
                 repository.insertarMedicion(nuevaMedicion)
                 _formState.value = MedicionFormState()
+                _evidenciaUri.value = null
                 _mostrarMensaje.value = true
             }
             return true

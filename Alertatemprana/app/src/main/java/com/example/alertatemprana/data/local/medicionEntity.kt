@@ -12,5 +12,6 @@ data class MedicionEntity(
     val humedad: Double,
     val estado: String,
     val fechaHora: String,
+    val imagenUri: String?,
     val timestamp: Long = System.currentTimeMillis()
 )

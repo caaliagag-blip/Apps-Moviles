@@ -38,13 +38,27 @@ fun AppNavigation(
         startDestination = Screen.Home.route
     ) {
         composable(Screen.Home.route) {
-            HomeScreen(mainViewModel = mainViewModel, galponViewModel = galponViewModel)
+            HomeScreen(
+                viewModel = galponViewModel,
+                onNavigateToForm = {
+                    navController.navigate(Screen.Formulario.route)
+                },
+                onNavigateToEvidencia = {
+                    navController.navigate(Screen.Evidencia.route)
+                }
+            )
         }
         composable(Screen.Formulario.route) {
-            FormularioScreen(mainViewModel = mainViewModel, galponViewModel = galponViewModel)
+            FormularioScreen(
+                mainViewModel = mainViewModel,
+                galponViewModel = galponViewModel
+            )
         }
         composable(Screen.Evidencia.route) {
-            EvidenciaScreen(mainViewModel = mainViewModel, galponViewModel = galponViewModel)
+            EvidenciaScreen(
+                mainViewModel = mainViewModel,
+                galponViewModel = galponViewModel
+            )
         }
     }
 }

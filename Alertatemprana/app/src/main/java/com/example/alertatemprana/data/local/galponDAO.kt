@@ -1,6 +1,7 @@
 package com.example.alertatemprana.data.local
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -13,5 +14,8 @@ interface GalponDao {
     fun getAllMediciones(): Flow<List<MedicionEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMedicion(medicion: MedicionEntity): Long
+    suspend fun insertMedicion(medicion: MedicionEntity): Long
+
+    @Delete
+    suspend fun eliminarMedicion(medicion: MedicionEntity): Int
 }

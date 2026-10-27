@@ -127,6 +127,12 @@ class GalponViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    fun eliminarMedicion(medicion: MedicionEntity) {
+        viewModelScope.launch {
+            repository.eliminarMedicion(medicion)
+        }
+    }
+
     fun resetMensaje() {
         _mostrarMensaje.value = false
     }

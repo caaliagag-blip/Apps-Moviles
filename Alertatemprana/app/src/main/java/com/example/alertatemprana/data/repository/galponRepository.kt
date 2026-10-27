@@ -15,4 +15,10 @@ class GalponRepository(private val galponDao: GalponDao) {
             galponDao.insertMedicion(medicion)
         }
     }
+
+    suspend fun eliminarMedicion(medicion: MedicionEntity) {
+        withContext(Dispatchers.IO) {
+            galponDao.eliminarMedicion(medicion)
+        }
+    }
 }

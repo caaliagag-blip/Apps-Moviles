@@ -58,7 +58,7 @@ fun HomeScreen(
 
     // Diálogo de autenticación
     rolSolicitado?.let { rol ->
-        val claveCorrecta = if (rol == RolUsuario.JEFE) "six seven" else "sin semen "
+        val claveCorrecta = if (rol == RolUsuario.JEFE) "six seven" else "1234"
         val tituloRol = if (rol == RolUsuario.JEFE) "Modo Jefe" else "Modo Supervisor"
 
         AlertDialog(
